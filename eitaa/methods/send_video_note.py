@@ -21,13 +21,8 @@ class SendVideoNote:
         file_name: str,
         duration: int,
         length: int,
-        no_sound: Optional[bool] = None,
-        thumb: Optional[BytesIO] = None,
         reply_to_message_id: Optional[int] = None,
     ) -> None:
-        if thumb:
-            thumb = await self.save_file(thumb, thumb.name)
-
         file = await self.save_file(video_note, file_name)
 
         return await self.invoke(
@@ -38,8 +33,6 @@ class SendVideoNote:
                 media=InputMediaUploadedDocument(
                     file=file,
                     mime_type=self.guess_mime_type(file_name) or "video/mp4",
-                    thumb=thumb,
-                    nosound_video=no_sound,
                     attributes=[
                         DocumentAttributeVideo(
                             round_message=True,

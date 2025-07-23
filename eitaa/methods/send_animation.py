@@ -27,13 +27,9 @@ class SendAnimation:
         width: int,
         height: int,
         caption: str = "",
-        thumb: Optional[BytesIO] = None,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
     ) -> None:
-        if thumb:
-            thumb = await self.save_file(thumb, thumb.name)
-
         file = await self.save_file(animation, file_name)
 
         return await self.invoke(
@@ -44,7 +40,6 @@ class SendAnimation:
                 media=InputMediaUploadedDocument(
                     file=file,
                     mime_type=self.guess_mime_type(file_name) or "video/mp4",
-                    thumb=thumb,
                     attributes=[
                         DocumentAttributeVideo(
                             supports_streaming=True,
@@ -56,7 +51,7 @@ class SendAnimation:
                         DocumentAttributeAnimated()
                     ]
                 ),
-                message=caption,
+                message=caption or "",
                 random_id=self.rnd_id(),
                 entities=self.make_entities(entities),
                 reply_to_msg_id=reply_to_message_id,

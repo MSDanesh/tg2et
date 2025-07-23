@@ -16,17 +16,17 @@ class TelegramManager(Client):
 
         self.parent = parent
 
-        self.add_handler(MessageHandler(OnPin, pin))
-        self.add_handler(MessageHandler(OnText, text))
-        self.add_handler(MessageHandler(OnMediaGroup, media_group))
-        self.add_handler(MessageHandler(OnAnimation, animation))
-        self.add_handler(MessageHandler(OnAudio, audio))
-        self.add_handler(MessageHandler(OnDocument, document))
-        self.add_handler(MessageHandler(OnPhoto, photo))
-        self.add_handler(MessageHandler(OnSticker, sticker))
-        self.add_handler(MessageHandler(OnVideo, video))
-        self.add_handler(MessageHandler(OnVideoNote, video_note))
-        self.add_handler(MessageHandler(OnVoice, voice))
+        self.add_handler(MessageHandler(OnPin, pin & channel))
+        self.add_handler(MessageHandler(OnText, text & channel))
+        self.add_handler(MessageHandler(OnMediaGroup, media_group & channel))
+        self.add_handler(MessageHandler(OnAnimation, animation & channel))
+        self.add_handler(MessageHandler(OnAudio, audio & channel))
+        self.add_handler(MessageHandler(OnDocument, document & channel))
+        self.add_handler(MessageHandler(OnPhoto, photo & channel))
+        self.add_handler(MessageHandler(OnSticker, sticker & channel))
+        self.add_handler(MessageHandler(OnVideo, video & channel))
+        self.add_handler(MessageHandler(OnVideoNote, video_note & channel))
+        self.add_handler(MessageHandler(OnVoice, voice & channel))
 
         self.add_handler(EditedMessageHandler(OnEdit))
         self.add_handler(DeletedMessagesHandler(OnDelete))

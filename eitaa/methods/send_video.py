@@ -27,14 +27,9 @@ class SendVideo:
         height: int,
         caption: str = "",
         supports_streaming: bool = True,
-        no_sound: Optional[bool] = None,
-        thumb: Optional[BytesIO] = None,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
     ) -> None:
-        if thumb:
-            thumb = await self.save_file(thumb, thumb.name)
-
         file = await self.save_file(video, file_name)
 
         return await self.invoke(
@@ -45,8 +40,6 @@ class SendVideo:
                 media=InputMediaUploadedDocument(
                     file=file,
                     mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
-                    thumb=thumb,
-                    nosound_video=no_sound,
                     attributes=[
                         DocumentAttributeVideo(
                             supports_streaming=supports_streaming or None,
@@ -57,7 +50,7 @@ class SendVideo:
                         DocumentAttributeFilename(file_name=file_name)
                     ]
                 ),
-                message=caption,
+                message=caption or "",
                 random_id=self.rnd_id(),
                 entities=self.make_entities(entities),
                 reply_to_msg_id=reply_to_message_id,

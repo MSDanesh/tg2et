@@ -50,7 +50,7 @@ class SendVoice:
                         )
                     ]
                 ),
-                message=caption,
+                message=caption or "",
                 random_id=self.rnd_id(),
                 entities=self.make_entities(entities),
                 reply_to_msg_id=reply_to_message_id,

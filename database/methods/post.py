@@ -41,11 +41,13 @@ class PostMethods:
 
             await session.commit()
 
-    async def get_post(self: Database, tg_id: int) -> Optional[Post]:
+    async def get_post(self: Database, tg_channel: int, tg_post_id: int) -> Optional[Post]:
         async with use, self.session() as session:
             result = await session.execute(
                 select(Post)
-                .where(Post.channel_id == tg_id)
+                .where(
+                    and_(Post.tg == tg_channel, Post.tg_id == tg_post_id)
+                )
                 .limit(1)
             )
 

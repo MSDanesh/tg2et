@@ -67,8 +67,6 @@ class SendMediaGroup:
                             media=InputMediaUploadedDocument(
                                 mime_type=self.guess_mime_type(m.video.name) or "video/mp4",
                                 file=await self.save_file(m.video, m.video.name or "video.mp4"),
-                                thumb=await self.save_file(m.thumb, getattr(m.thumb, "name", "thumb.jpg")),
-                                nosound_video=m.no_sound,
                                 attributes=[
                                     DocumentAttributeVideo(
                                         supports_streaming=m.supports_streaming or None,
@@ -85,8 +83,6 @@ class SendMediaGroup:
                         dc_type=DcType.UPLOAD
                     )
 
-                    
-
                     final_media = InputMediaDocument(
                         id=InputDocument_(
                             id=uploaded_media.document.id,
@@ -102,7 +98,6 @@ class SendMediaGroup:
                             media=InputMediaUploadedDocument(
                                 mime_type=self.guess_mime_type(m.audio.name) or "audio/mpeg",
                                 file=await self.save_file(m.audio, m.audio.name or "audio.mp3"),
-                                thumb=await self.save_file(m.thumb, getattr(m.thumb, "name", "thumb.jpg")),
                                 attributes=[
                                     DocumentAttributeAudio(
                                         duration=m.duration,
@@ -133,7 +128,6 @@ class SendMediaGroup:
                             media=InputMediaUploadedDocument(
                                 mime_type=self.guess_mime_type(m.document.name) or "application/zip",
                                 file=await self.save_file(m.document, m.document.name or "doc.zip"),
-                                thumb=await self.save_file(m.thumb, getattr(m.thumb, "name", "thumb.jpg")),
                                 attributes=[
                                     DocumentAttributeFilename(
                                         file_name=m.document.name or "doc.zip"
@@ -159,7 +153,7 @@ class SendMediaGroup:
                 InputSingleMedia(
                     media=final_media,
                     random_id=self.rnd_id(),
-                    message=m.caption,
+                    message=m.caption or "",
                     entities=self.make_entities(m.entities)
                 )
             )

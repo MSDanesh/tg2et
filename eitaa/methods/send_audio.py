@@ -26,13 +26,9 @@ class SendAudio:
         caption: str = "",
         title: Optional[str] = None,
         performer: Optional[str] = None,
-        thumb: Optional[BytesIO] = None,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
     ) -> None:
-        if thumb:
-            thumb = await self.save_file(thumb, thumb.name)
-
         file = await self.save_file(audio, file_name)
 
         mime_type = self.guess_mime_type(file_name) or "audio/mpeg"
@@ -48,7 +44,6 @@ class SendAudio:
                 media=InputMediaUploadedDocument(
                     file=file,
                     mime_type=mime_type,
-                    thumb=thumb,
                     attributes=[
                         DocumentAttributeAudio(
                             duration=duration,

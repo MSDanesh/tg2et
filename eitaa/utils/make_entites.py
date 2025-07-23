@@ -58,7 +58,7 @@ class MakeEntites:
         return [
             normal_types_table[entity.type](
                 offset=entity.offset,
-                length=entity.offset
+                length=entity.length
             )
             if entity.type in normal_types_table else abnormal_types_table[entity.type](entity)
             for entity in entities

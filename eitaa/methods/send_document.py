@@ -22,13 +22,9 @@ class SendDocument:
         document: BytesIO,
         file_name: str,
         caption: str = "",
-        thumb: Optional[BytesIO] = None,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
     ) -> None:
-        if thumb:
-            thumb = await self.save_file(thumb, thumb.name)
-
         file = await self.save_file(document, file_name)
 
         return await self.invoke(
@@ -39,12 +35,11 @@ class SendDocument:
                 media=InputMediaUploadedDocument(
                     file=file,
                     mime_type=self.guess_mime_type(file_name) or "application/zip",
-                    thumb=thumb,
                     attributes=[
                         DocumentAttributeFilename(file_name=file_name)
                     ]
                 ),
-                message=caption,
+                message=caption or "",
                 random_id=self.rnd_id(),
                 reply_to_msg_id=reply_to_message_id,
                 entities=self.make_entities(entities),

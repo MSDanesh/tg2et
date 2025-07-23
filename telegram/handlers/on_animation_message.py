@@ -1,6 +1,21 @@
-from pyrogram.client import Client
+from typing import TYPE_CHECKING
 from pyrogram.types.messages_and_media.message import Message
 
+if TYPE_CHECKING:
+    from ..manager import TelegramManager
 
-def OnAnimation(client: Client, message: Message):
-    ...
+
+async def OnAnimation(client: "TelegramManager", message: Message):
+    animation = await client.download_media(message.animation, in_memory=True)
+
+    await client.parent.et.send_animation(
+        message.chat.eitaa_id,
+        animation,
+        animation.name,
+        message.animation.duration,
+        message.animation.width,
+        message.animation.height,
+        message.caption,
+        message.reply_to_eitaa_message_id,
+        message.caption_entities
+    )

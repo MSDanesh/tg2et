@@ -19,8 +19,6 @@ class InputVideo:
     caption: str = ""
     entities: list[MessageEntity] = None
     supports_streaming: bool = True
-    no_sound: bool = None
-    thumb: BytesIO = None
 
 @dataclass
 class InputAudio:
@@ -30,11 +28,9 @@ class InputAudio:
     performer: str = ""
     caption: str = ""
     entities: list[MessageEntity] = None
-    thumb: BytesIO = None
 
 @dataclass
 class InputDocument:
     document: BytesIO
     caption: str = ""
     entities: list[MessageEntity] = None
-    thumb: BytesIO = None

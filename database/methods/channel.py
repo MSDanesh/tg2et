@@ -39,13 +39,11 @@ class ChannelMethods:
                 .limit(1)
             )
 
-    async def get_channel(self: Database, tg_id: int = None, et_id: int = None) -> Optional[Channel]:
+    async def get_channel(self: Database, tg_channel: int = None) -> Optional[Channel]:
         async with use, self.session() as session:
             result = await session.execute(
                 select(Channel)
-                .where(
-                    or_(Channel.tg == tg_id, Channel.et == et_id)
-                )
+                .where(Channel.tg == tg_channel)
                 .limit(1)
             )
 
