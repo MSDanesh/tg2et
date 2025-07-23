@@ -1,12 +1,20 @@
+from typing import TYPE_CHECKING
+
 from pyrogram.client import Client
 from pyrogram.handlers import MessageHandler, EditedMessageHandler, DeletedMessagesHandler
 
 from .filters import *
 from .handlers import *
 
+if TYPE_CHECKING:
+    from ..tg2et import Tg2Et
+
+
 class TelegramManager(Client):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent: "Tg2Et", *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.parent = parent
 
         self.add_handler(MessageHandler(OnPin, pin))
         self.add_handler(MessageHandler(OnText, text))

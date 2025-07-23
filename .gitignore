@@ -1,5 +1,5 @@
-*.db*
 *.env
+*.sqlite*
 *.session
 *.session-journal
 **/__pycache__/

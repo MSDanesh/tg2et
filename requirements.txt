@@ -3,6 +3,8 @@ pyeitaa
 pyrogram
 tgcrypto
 
+aiosqlite
+sqlalchemy
 
 uvloop; sys_platform != "win32"
 

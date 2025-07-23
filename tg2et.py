@@ -1,10 +1,10 @@
 from eitaa import EitaaManager
 from telegram import TelegramManager
+from database import Database
 
 from sys import platform
-from dotenv.main import DotEnv
-from os.path import dirname, join
 from warnings import filterwarnings
+from dotenv.main import dotenv_values
 
 from pyrogram.methods.utilities.idle import idle
 
@@ -14,11 +14,7 @@ if platform != "win32":
 
 filterwarnings("ignore")
 
-env = DotEnv(
-    join(dirname(__file__), ".env"), override=True
-)
-
-env.set_as_environment_variables()
+env = dotenv_values()
 
 
 class Tg2Et:
@@ -26,12 +22,15 @@ class Tg2Et:
         self.et = EitaaManager("et",
                                phone_number=env.get("ET_PHONE_NUMBER")
                                )
-        self.tg = TelegramManager("tg",
+        self.tg = TelegramManager(self, "tg",
                                   api_id=env.get("TG_API_ID"),
                                   api_hash=env.get("TG_API_HASH"),
                                   bot_token=env.get("TG_BOT_TOKEN")
                                   )
+        self.db = Database()
 
     async def run(self):
+        await self.db.create_base()
+
         async with self.et, self.tg:
             await idle()
