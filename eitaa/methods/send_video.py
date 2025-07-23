@@ -1,0 +1,67 @@
+from typing import TYPE_CHECKING, Optional
+
+from io import BytesIO
+
+from pyeitaa.raw.types.input_peer_channel import InputPeerChannel
+from pyeitaa.raw.functions.messages.send_media import SendMedia
+from pyeitaa.raw.types.input_media_uploaded_document import InputMediaUploadedDocument
+from pyeitaa.raw.types.document_attribute_filename import DocumentAttributeFilename
+from pyeitaa.raw.types.document_attribute_video import DocumentAttributeVideo
+
+from pyeitaa.session_internals import DcType
+
+from pyrogram.types.messages_and_media.message_entity import MessageEntity
+
+if TYPE_CHECKING:
+    from ..manager import EitaaManager
+
+
+class SendVideo:
+    async def send_video(
+        self: "EitaaManager",
+        chat: int,
+        video: BytesIO,
+        file_name: str,
+        duration: int,
+        width: int,
+        height: int,
+        caption: str = "",
+        supports_streaming: bool = True,
+        no_sound: Optional[bool] = None,
+        thumb: Optional[BytesIO] = None,
+        reply_to_message_id: Optional[int] = None,
+        entities: Optional[list[MessageEntity]] = None,
+    ) -> None:
+        if thumb:
+            thumb = await self.save_file(thumb, thumb.name)
+
+        file = await self.save_file(video, file_name)
+
+        return await self.invoke(
+            SendMedia(
+                peer=InputPeerChannel(
+                    channel_id=chat, access_hash=0
+                ),
+                media=InputMediaUploadedDocument(
+                    file=file,
+                    mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
+                    thumb=thumb,
+                    nosound_video=no_sound,
+                    attributes=[
+                        DocumentAttributeVideo(
+                            supports_streaming=supports_streaming or None,
+                            duration=duration,
+                            w=width,
+                            h=height
+                        ),
+                        DocumentAttributeFilename(file_name=file_name)
+                    ]
+                ),
+                message=caption,
+                random_id=self.rnd_id(),
+                entities=self.make_entities(entities),
+                reply_to_msg_id=reply_to_message_id,
+                clear_draft=True
+            ),
+            dc_type=DcType.UPLOAD
+        )
