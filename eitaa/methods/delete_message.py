@@ -12,7 +12,7 @@ class DeleteMessage:
         self: "EitaaManager",
         chat: int,
         message_id: int
-    ) -> None:
+    ):
         return await self.invoke(
             DeleteMessages(
                 channel=InputChannel(

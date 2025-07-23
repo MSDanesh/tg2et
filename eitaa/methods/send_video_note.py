@@ -22,7 +22,7 @@ class SendVideoNote:
         duration: int,
         length: int,
         reply_to_message_id: Optional[int] = None,
-    ) -> None:
+    ):
         file = await self.save_file(video_note, file_name)
 
         return await self.invoke(

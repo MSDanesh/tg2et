@@ -13,7 +13,7 @@ class PinMessage:
         chat: int,
         message_id: int,
         silent: Optional[bool] = None
-    ) -> None:
+    ):
         return await self.invoke(
             UpdatePinnedMessage(
                 peer=InputPeerChannel(

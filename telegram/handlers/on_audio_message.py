@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 async def OnAudio(client: "TelegramManager", message: Message):
     audio = await client.download_media(message.audio, in_memory=True)
 
-    await client.parent.et.send_audio(
+    updates = await client.parent.et.send_audio(
         message.chat.eitaa_id,
         audio,
         audio.name,
@@ -19,3 +19,6 @@ async def OnAudio(client: "TelegramManager", message: Message):
         message.reply_to_eitaa_message_id,
         message.caption_entities
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

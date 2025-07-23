@@ -24,7 +24,7 @@ class SendDocument:
         caption: str = "",
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
-    ) -> None:
+    ):
         file = await self.save_file(document, file_name)
 
         return await self.invoke(

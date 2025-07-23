@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 async def OnVideoNote(client: "TelegramManager", message: Message):
     video_note = await client.download_media(message.video_note, in_memory=True)
 
-    await client.parent.et.send_video_note(
+    updates = await client.parent.et.send_video_note(
         message.chat.eitaa_id,
         video_note,
         video_note.name,
@@ -16,3 +16,6 @@ async def OnVideoNote(client: "TelegramManager", message: Message):
         message.video_note.length,
         message.reply_to_eitaa_message_id,
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

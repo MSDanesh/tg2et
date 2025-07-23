@@ -29,7 +29,7 @@ class SendVideo:
         supports_streaming: bool = True,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
-    ) -> None:
+    ):
         file = await self.save_file(video, file_name)
 
         return await self.invoke(

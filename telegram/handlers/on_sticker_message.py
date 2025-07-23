@@ -11,10 +11,13 @@ async def OnSticker(client: "TelegramManager", message: Message):
 
     sticker = await client.download_media(message.sticker, in_memory=True)
 
-    await client.parent.et.send_sticker(
+    updates = await client.parent.et.send_sticker(
         message.chat.eitaa_id,
         sticker,
         sticker.name,
         message.sticker.emoji,
         message.reply_to_eitaa_message_id
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

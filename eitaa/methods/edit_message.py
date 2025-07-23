@@ -16,7 +16,7 @@ class EditMessage:
         message_id: int,
         text: str,
         entities: Optional[list[MessageEntity]] = None,
-    ) -> None:
+    ):
         return await self.invoke(
             EditMessage_(
                 peer=InputPeerChannel(

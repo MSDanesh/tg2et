@@ -32,7 +32,7 @@ class SendMediaGroup:
         chat: int,
         media: list[InputPhoto | InputVideo | InputAudio | InputDocument],
         reply_to_message_id: Optional[int] = None,
-    ) -> None:
+    ):
         multi_media = []
 
         peer = InputPeerChannel(

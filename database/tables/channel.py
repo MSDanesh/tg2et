@@ -9,7 +9,7 @@ class Channel(Base):
     __tablename__ = "channels"
 
     tg = Column(Integer, primary_key=True)
-    et = Column(Integer, primary_key=True)
+    et = Column(Integer, unique=True, nullable=False)
 
     posts = relationship(
         "Post",

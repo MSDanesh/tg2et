@@ -23,7 +23,7 @@ class SendSticker:
         file_name: str,
         emoji: str,
         reply_to_message_id: Optional[int] = None,
-    ) -> None:
+    ):
         file = await self.save_file(sticker, file_name)
 
         return await self.invoke(

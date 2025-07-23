@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 async def OnPhoto(client: "TelegramManager", message: Message):
     photo = await client.download_media(message.photo, in_memory=True)
 
-    await client.parent.et.send_photo(
+    updates = await client.parent.et.send_photo(
         message.chat.eitaa_id,
         photo,
         photo.name,
@@ -16,3 +16,6 @@ async def OnPhoto(client: "TelegramManager", message: Message):
         message.reply_to_eitaa_message_id,
         message.caption_entities
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

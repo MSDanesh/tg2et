@@ -12,7 +12,7 @@ class UnpinMessage:
         self: "EitaaManager",
         chat: int,
         message_id: int,
-    ) -> None:
+    ):
         return await self.invoke(
             UpdatePinnedMessage(
                 peer=InputPeerChannel(

@@ -78,8 +78,11 @@ async def OnMediaGroup(client: "TelegramManager", message: Message):
                     )
                 )
 
-    await client.parent.et.send_media_group(
+    updates = await client.parent.et.send_media_group(
         message.chat.eitaa_id,
         media,
         message.reply_to_eitaa_message_id
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

@@ -26,7 +26,7 @@ class SendVoice:
         waveform: Optional[bytes] = None,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
-    ) -> None:
+    ):
         file = await self.save_file(voice, file_name)
 
         mime_type = self.guess_mime_type(file_name) or "audio/ogg"

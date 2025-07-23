@@ -11,7 +11,7 @@ class UnpinAllMessages:
     async def unpin_all_messages(
         self: "EitaaManager",
         chat: int,
-    ) -> None:
+    ):
         return await self.invoke(
             UnpinAllMessages_(
                 peer=InputPeerChannel(

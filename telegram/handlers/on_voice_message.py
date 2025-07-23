@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 async def OnVoice(client: "TelegramManager", message: Message):
     voice = await client.download_media(message.voice, in_memory=True)
 
-    await client.parent.et.send_voice(
+    updates = await client.parent.et.send_voice(
         message.chat.eitaa_id,
         voice,
         voice.name,
@@ -18,3 +18,6 @@ async def OnVoice(client: "TelegramManager", message: Message):
         message.reply_to_eitaa_message_id,
         message.caption_entities
     )
+
+    for et_message_id in client.parent.et.get_message_id(updates):
+        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)

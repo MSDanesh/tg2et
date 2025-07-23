@@ -24,6 +24,9 @@ async def channel_filter(_, client: "TelegramManager", message: Message):
                     message.reply_to_message_id
                 )
 
+                if message.reply_to_eitaa_message_id:
+                    message.reply_to_eitaa_message_id = message.reply_to_eitaa_message_id.et_id
+
             else:
                 message.reply_to_eitaa_message_id = None
 

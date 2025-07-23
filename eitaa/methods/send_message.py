@@ -16,7 +16,7 @@ class SendMessage:
         text: str,
         reply_to_message_id: Optional[int] = None,
         entities: Optional[list[MessageEntity]] = None,
-    ) -> None:
+    ):
         return await self.invoke(
             SendMessage_(
                 peer=InputPeerChannel(
