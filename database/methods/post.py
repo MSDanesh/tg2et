@@ -13,9 +13,9 @@ if TYPE_CHECKING:
 
 
 class PostMethods:
-    async def add_post(self: Database, tg_channel: int, tg_post_id: int, et_post_id: int) -> Post:
+    async def add_post(self: Database, channel_id: int, tg_post_id: int, et_post_id: int) -> Post:
         post = Post(
-            tg=tg_channel,
+            channel_id=channel_id,
             tg_id=tg_post_id,
             et_id=et_post_id,
         )
@@ -30,35 +30,35 @@ class PostMethods:
 
         return post
 
-    async def delete_post(self: Database, tg_channel: int, tg_post_id: int) -> None:
+    async def delete_post(self: Database, channel_id: int, tg_post_id: int) -> None:
         async with use, self.session() as session:
             await session.execute(
                 delete(Post)
                 .where(
-                    and_(Post.tg == tg_channel, Post.tg_id == tg_post_id)
+                    and_(Post.channel_id == channel_id, Post.tg_id == tg_post_id)
                 )
             )
 
             await session.commit()
 
-    async def get_post(self: Database, tg_channel: int, tg_post_id: int) -> Optional[Post]:
+    async def get_post(self: Database, channel_id: int, tg_post_id: int) -> Optional[Post]:
         async with use, self.session() as session:
             result = await session.execute(
                 select(Post)
                 .where(
-                    and_(Post.tg == tg_channel, Post.tg_id == tg_post_id)
+                    and_(Post.channel_id == channel_id, Post.tg_id == tg_post_id)
                 )
                 .limit(1)
             )
 
             return result.scalar()
 
-    async def get_channel_posts(self: Database, tg_channel: int, offset: int = None, limit: int = None) -> list[Post]:
+    async def get_channel_posts(self: Database, channel_id: int, offset: int = None, limit: int = None) -> list[Post]:
         async with use, self.session() as session:
             result = await session.execute(
                 select(Post)
                 .order_by(desc(Post.tg_id))
-                .where(Post.tg == tg_channel)
+                .where(Post.channel_id == channel_id)
                 .offset(offset)
                 .limit(limit)
             )

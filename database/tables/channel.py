@@ -8,7 +8,9 @@ from .base import Base
 class Channel(Base):
     __tablename__ = "channels"
 
-    tg = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+
+    tg = Column(Integer, unique=True, nullable=False)
     et = Column(Integer, unique=True, nullable=False)
 
     posts = relationship(
