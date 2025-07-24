@@ -6,4 +6,4 @@ if TYPE_CHECKING:
 
 
 async def OnDelete(client: "TelegramManager", message: Message):
-    print(message)
+    return NotImplemented
