@@ -20,4 +20,4 @@ async def OnSticker(client: "TelegramManager", message: Message):
     )
 
     for et_message_id in client.parent.et.get_message_id(updates):
-        await client.parent.db.add_post(message.chat.id, message.id, et_message_id)
+        await client.parent.db.add_post(message.chat.channel_id, message.id, et_message_id)

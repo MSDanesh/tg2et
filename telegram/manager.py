@@ -28,5 +28,5 @@ class TelegramManager(Client):
         self.add_handler(MessageHandler(OnVideoNote, video_note & channel))
         self.add_handler(MessageHandler(OnVoice, voice & channel))
 
-        self.add_handler(EditedMessageHandler(OnEdit))
+        self.add_handler(EditedMessageHandler(OnEdit, message))
         self.add_handler(DeletedMessagesHandler(OnDelete))
