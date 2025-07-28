@@ -31,6 +31,9 @@ class Tg2Et:
 
     async def run(self):
         await self.db.create_base()
+        
+        if admin_id := env.get("ADMIN_ID"):
+            await self.db.add_user(admin_id, "admin")
 
         async with self.et, self.tg:
             await idle()

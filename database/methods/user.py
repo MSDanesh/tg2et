@@ -4,7 +4,7 @@ from sqlalchemy.future import select
 from sqlalchemy.sql.dml import Delete
 from sqlalchemy.exc import IntegrityError
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from .base import use
 from ..tables.user import User
@@ -39,15 +39,15 @@ class UserMethods:
 
             await session.commit()
 
-    async def user_exists(self: Database, user_id: int) -> bool:
+    async def get_user(self: Database, user_id: int) -> Optional[User]:
         async with use, self.session() as session:
             result = await session.execute(
-                select(User.id)
+                select(User)
                 .where(User.id == user_id)
                 .limit(1)
             )
 
-            return bool(result.scalar())
+            return result.scalar()
 
     async def get_users(self: Database, offset: int = 0, limit: int = 20) -> list[User]:
         async with use, self.session() as session:

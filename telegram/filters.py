@@ -53,4 +53,18 @@ async def message_filter(_, client: "TelegramManager", message: Message):
 
 message = create(message_filter)
 
-__all__ = ["animation", "audio", "document", "media_group", "photo", "pin", "sticker", "text", "video", "video_note", "voice", "channel", "message"]
+
+async def user_filter(_, client: "TelegramManager", message: Message):
+    if message.chat.type == enums.ChatType.PRIVATE:
+        user = await client.parent.db.get_user(message.from_user.id)
+
+        if user:
+            message.from_user.user_name = user.name
+
+            return True
+
+    return False
+
+user = create(user_filter)
+
+__all__ = ["animation", "audio", "document", "media_group", "photo", "pin", "sticker", "text", "video", "video_note", "voice", "channel", "message", "user"]

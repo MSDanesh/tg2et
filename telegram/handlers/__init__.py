@@ -11,6 +11,7 @@ from .on_text_message import OnText
 from .on_video_message import OnVideo
 from .on_video_note_message import OnVideoNote
 from .on_voice_message import OnVoice
+from .on_command import OnCommand
 
 
-__all__ = ["OnAnimation", "OnAudio", "OnDelete", "OnDocument", "OnEdit", "OnMediaGroup", "OnPhoto", "OnPin", "OnSticker", "OnText", "OnVideo", "OnVideoNote", "OnVoice"]
+__all__ = ["OnAnimation", "OnAudio", "OnDelete", "OnDocument", "OnEdit", "OnMediaGroup", "OnPhoto", "OnPin", "OnSticker", "OnText", "OnVideo", "OnVideoNote", "OnVoice", "OnCommand"]

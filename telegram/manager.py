@@ -5,12 +5,13 @@ from pyrogram.handlers import MessageHandler, EditedMessageHandler, DeletedMessa
 
 from .filters import *
 from .handlers import *
+from .commands import Commands
 
 if TYPE_CHECKING:
     from ..tg2et import Tg2Et
 
 
-class TelegramManager(Client):
+class TelegramManager(Client, Commands):
     def __init__(self, parent: "Tg2Et", *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -27,6 +28,8 @@ class TelegramManager(Client):
         self.add_handler(MessageHandler(OnVideo, video & channel))
         self.add_handler(MessageHandler(OnVideoNote, video_note & channel))
         self.add_handler(MessageHandler(OnVoice, voice & channel))
+
+        self.add_handler(MessageHandler(OnCommand, user))
 
         self.add_handler(EditedMessageHandler(OnEdit, message))
         self.add_handler(DeletedMessagesHandler(OnDelete))
