@@ -7,7 +7,7 @@ from .base import Base
 class Post(Base):
     __tablename__ = "posts"
 
-    channel_id = Column(Integer, ForeignKey("channels.id"), primary_key=True)
+    channel_id = Column(Integer, ForeignKey("channels.id", ondelete="CASCADE"), primary_key=True)
     tg_id = Column(Integer, primary_key=True)
     et_id = Column(Integer, nullable=False)
 

@@ -16,6 +16,8 @@ from .unpin_all_messages import UnpinAllMessages
 from .edit_message import EditMessage
 from .delete_message import DeleteMessage
 
+from .get_channel_id import GetChannelID
+
 class Methods(
     SendPhoto,
     SendVideo,
@@ -35,5 +37,6 @@ class Methods(
     EditMessage,
     DeleteMessage,
 
+    GetChannelID
 ):
     ...

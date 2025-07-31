@@ -29,15 +29,13 @@ class ChannelMethods:
 
         return channel
 
-    async def delete_channel(self: Database, tg_id: int = None, et_id: int = None) -> None:
+    async def delete_channel(self: Database, channel_id: int) -> None:
         async with use, self.session() as session:
             await session.execute(
                 delete(Channel)
-                .where(
-                    or_(Channel.tg == tg_id, Channel.et == et_id)
-                )
-                .limit(1)
+                .where(Channel.id == channel_id)
             )
+            await session.commit()
 
     async def get_channel(self: Database, tg_channel: int = None) -> Optional[Channel]:
         async with use, self.session() as session:

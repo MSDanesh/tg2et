@@ -27,7 +27,7 @@ class DelUser:
 
                 else:
                     await self.parent.db.delete_user(user_id)
-                    return await message.reply_text(f"User `{user_id}`  ({user.name}) successfuly deleted.", quote=True)
+                    return await message.reply_text(f"User `{user_id}` ({user.name}) successfuly deleted.", quote=True)
 
             else:
                 return await message.reply_text(f"User `{user_id}`  ({user}) doesn't exist.", quote=True)
